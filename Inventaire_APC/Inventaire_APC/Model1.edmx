@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="inventaire_apcModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="inventaire_apcModelStoreContainer">
+    <EntitySet Name="bureauxSet" EntityType="inventaire_apcModel.Store.bureauxSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="inventaires_bureauSet" EntityType="inventaire_apcModel.Store.inventaires_bureauSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="liste_equipementSet" EntityType="inventaire_apcModel.Store.liste_equipementSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="services_antennesSet" EntityType="inventaire_apcModel.Store.services_antennesSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="login_tabSet" EntityType="inventaire_apcModel.Store.login_tabSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_bureauxinventaires_bureau" Association="inventaire_apcModel.Store.FK_bureauxinventaires_bureau">
+      <End Role="bureauxSet" EntitySet="bureauxSet" />
+      <End Role="inventaires_bureauSet" EntitySet="inventaires_bureauSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_services_antennesbureaux" Association="inventaire_apcModel.Store.FK_services_antennesbureaux">
+      <End Role="services_antennesSet" EntitySet="services_antennesSet" />
+      <End Role="bureauxSet" EntitySet="bureauxSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="bureauxSet">
+    <Key>
+      <PropertyRef Name="id_bureau" />
+    </Key>
+    <Property Name="id_bureau" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom_bureau" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="services_antennes_id_service" Type="int" Nullable="false" />
+    <Property Name="etat_bureau" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="inventaires_bureauSet">
+    <Key>
+      <PropertyRef Name="id_inventaire" />
+    </Key>
+    <Property Name="id_inventaire" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="numero_inventaire" Type="int" Nullable="false" />
+    <Property Name="nom_inventaire" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="nombre_inventaire" Type="int" Nullable="false" />
+    <Property Name="refrence_inventaire" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="remarque_inventaire" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="bureaux_id_bureau" Type="int" Nullable="false" />
+    <Property Name="code_equippent_insert" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="liste_equipementSet">
+    <Key>
+      <PropertyRef Name="id_equipement" />
+    </Key>
+    <Property Name="id_equipement" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom_equipement" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="quantite" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="services_antennesSet">
+    <Key>
+      <PropertyRef Name="id_service" />
+    </Key>
+    <Property Name="id_service" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom_service" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="login_tabSet">
+    <Key>
+      <PropertyRef Name="id_user" />
+    </Key>
+    <Property Name="id_user" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="user_names" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="passwords" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="permissions" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_bureauxinventaires_bureau">
+    <End Role="bureauxSet" Type="inventaire_apcModel.Store.bureauxSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="inventaires_bureauSet" Type="inventaire_apcModel.Store.inventaires_bureauSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="bureauxSet">
+        <PropertyRef Name="id_bureau" />
+      </Principal>
+      <Dependent Role="inventaires_bureauSet">
+        <PropertyRef Name="bureaux_id_bureau" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_services_antennesbureaux">
+    <End Role="services_antennesSet" Type="inventaire_apcModel.Store.services_antennesSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="bureauxSet" Type="inventaire_apcModel.Store.bureauxSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="services_antennesSet">
+        <PropertyRef Name="id_service" />
+      </Principal>
+      <Dependent Role="bureauxSet">
+        <PropertyRef Name="services_antennes_id_service" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="inventaire_apcModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="bureauxSet">
+          <Key>
+            <PropertyRef Name="id_bureau" />
+          </Key>
+          <Property Name="id_bureau" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom_bureau" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="services_antennes_id_service" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="inventaires_bureauSet" Relationship="Self.FK_bureauxinventaires_bureau" FromRole="bureauxSet" ToRole="inventaires_bureauSet" />
+          <NavigationProperty Name="services_antennesSet" Relationship="Self.FK_services_antennesbureaux" FromRole="bureauxSet" ToRole="services_antennesSet" />
+          <Property Name="etat_bureau" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="inventaires_bureauSet">
+          <Key>
+            <PropertyRef Name="id_inventaire" />
+          </Key>
+          <Property Name="id_inventaire" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numero_inventaire" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="nom_inventaire" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="nombre_inventaire" Type="Int32" Nullable="false" />
+          <Property Name="refrence_inventaire" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="true" />
+          <Property Name="remarque_inventaire" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="true" />
+          <Property Name="bureaux_id_bureau" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="bureauxSet" Relationship="Self.FK_bureauxinventaires_bureau" FromRole="inventaires_bureauSet" ToRole="bureauxSet" />
+          <Property Name="code_equippent_insert" Type="Int32" Nullable="true" />
+        </EntityType>
+        <EntityType Name="liste_equipementSet">
+          <Key>
+            <PropertyRef Name="id_equipement" />
+          </Key>
+          <Property Name="id_equipement" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom_equipement" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="quantite" Type="Int32" Nullable="true" />
+        </EntityType>
+        <EntityType Name="services_antennesSet">
+          <Key>
+            <PropertyRef Name="id_service" />
+          </Key>
+          <Property Name="id_service" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom_service" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="bureauxSet" Relationship="Self.FK_services_antennesbureaux" FromRole="services_antennesSet" ToRole="bureauxSet" />
+        </EntityType>
+        <Association Name="FK_bureauxinventaires_bureau">
+          <End Role="bureauxSet" Type="Self.bureauxSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="inventaires_bureauSet" Type="Self.inventaires_bureauSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bureauxSet">
+              <PropertyRef Name="id_bureau" />
+            </Principal>
+            <Dependent Role="inventaires_bureauSet">
+              <PropertyRef Name="bureaux_id_bureau" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_services_antennesbureaux">
+          <End Role="services_antennesSet" Type="Self.services_antennesSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="bureauxSet" Type="Self.bureauxSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="services_antennesSet">
+              <PropertyRef Name="id_service" />
+            </Principal>
+            <Dependent Role="bureauxSet">
+              <PropertyRef Name="services_antennes_id_service" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="inventaire_apcEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="bureauxSet" EntityType="Self.bureauxSet" />
+          <EntitySet Name="inventaires_bureauSet" EntityType="Self.inventaires_bureauSet" />
+          <EntitySet Name="liste_equipementSet" EntityType="Self.liste_equipementSet" />
+          <EntitySet Name="services_antennesSet" EntityType="Self.services_antennesSet" />
+          <AssociationSet Name="FK_bureauxinventaires_bureau" Association="Self.FK_bureauxinventaires_bureau">
+            <End Role="bureauxSet" EntitySet="bureauxSet" />
+            <End Role="inventaires_bureauSet" EntitySet="inventaires_bureauSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_services_antennesbureaux" Association="Self.FK_services_antennesbureaux">
+            <End Role="services_antennesSet" EntitySet="services_antennesSet" />
+            <End Role="bureauxSet" EntitySet="bureauxSet" />
+          </AssociationSet>
+          <EntitySet Name="login_tabSet" EntityType="inventaire_apcModel.login_tab" />
+        </EntityContainer>
+        <EntityType Name="login_tab">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_names" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="passwords" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="permissions" Type="Int32" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="inventaire_apcModelStoreContainer" CdmEntityContainer="inventaire_apcEntities">
+    <EntitySetMapping Name="bureauxSet">
+      <EntityTypeMapping TypeName="IsTypeOf(inventaire_apcModel.bureauxSet)">
+        <MappingFragment StoreEntitySet="bureauxSet">
+          <ScalarProperty Name="id_bureau" ColumnName="id_bureau" />
+          <ScalarProperty Name="nom_bureau" ColumnName="nom_bureau" />
+          <ScalarProperty Name="services_antennes_id_service" ColumnName="services_antennes_id_service" />
+          <ScalarProperty Name="etat_bureau" ColumnName="etat_bureau" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="inventaires_bureauSet">
+      <EntityTypeMapping TypeName="IsTypeOf(inventaire_apcModel.inventaires_bureauSet)">
+        <MappingFragment StoreEntitySet="inventaires_bureauSet">
+          <ScalarProperty Name="id_inventaire" ColumnName="id_inventaire" />
+          <ScalarProperty Name="numero_inventaire" ColumnName="numero_inventaire" />
+          <ScalarProperty Name="nom_inventaire" ColumnName="nom_inventaire" />
+          <ScalarProperty Name="nombre_inventaire" ColumnName="nombre_inventaire" />
+          <ScalarProperty Name="refrence_inventaire" ColumnName="refrence_inventaire" />
+          <ScalarProperty Name="remarque_inventaire" ColumnName="remarque_inventaire" />
+          <ScalarProperty Name="bureaux_id_bureau" ColumnName="bureaux_id_bureau" />
+          <ScalarProperty Name="code_equippent_insert" ColumnName="code_equippent_insert" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="liste_equipementSet">
+      <EntityTypeMapping TypeName="IsTypeOf(inventaire_apcModel.liste_equipementSet)">
+        <MappingFragment StoreEntitySet="liste_equipementSet">
+          <ScalarProperty Name="id_equipement" ColumnName="id_equipement" />
+          <ScalarProperty Name="nom_equipement" ColumnName="nom_equipement" />
+          <ScalarProperty Name="quantite" ColumnName="quantite" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="services_antennesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(inventaire_apcModel.services_antennesSet)">
+        <MappingFragment StoreEntitySet="services_antennesSet">
+          <ScalarProperty Name="id_service" ColumnName="id_service" />
+          <ScalarProperty Name="nom_service" ColumnName="nom_service" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="login_tabSet">
+      <EntityTypeMapping TypeName="IsTypeOf(inventaire_apcModel.login_tab)">
+        <MappingFragment StoreEntitySet="login_tabSet">
+          <ScalarProperty Name="id_user" ColumnName="id_user" />
+          <ScalarProperty Name="user_names" ColumnName="user_names" />
+          <ScalarProperty Name="passwords" ColumnName="passwords" />
+          <ScalarProperty Name="permissions" ColumnName="permissions" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

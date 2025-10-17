@@ -1,0 +1,15 @@
+CREATE  TRIGGER [dbo].[tracking_event]
+   ON  [dbo].[inventaires_bureauSet]  
+   AFTER  INSERT,UPDATE 
+AS 
+  declare @somme int;
+  declare @code_materiel int;
+BEGIN
+  set @code_materiel = (select code_equippent_insert  from inserted);
+  set @somme = (select SUM(nombre_inventaire) from inventaires_bureauSet where code_equippent_insert= @code_materiel)
+  update liste_equipementSet
+  set quantite=	@somme
+  from liste_equipementSet
+  where id_equipement = @code_materiel;
+  
+END
